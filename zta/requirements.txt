@@ -1,0 +1,6 @@
+numpy
+simpy
+networkx
+scikit-learn
+pandas
+node2vec

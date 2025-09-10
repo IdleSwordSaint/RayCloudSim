@@ -1,0 +1,13 @@
+- [x] Design ZTA-aware Node class with trust, feedback, behavioral, and anomaly tracking attributes (modular, extensible, separated)
+- [x] Implement trust calculation formulas (performance, feedback, behavioral, fused trust)
+- [x] Add outlier removal for feedback trust (IQR or Isolation Forest)
+- [x] Implement sliding window for recent trust scores
+- [x] Implement temporal anomaly detection (oscillation, variance, change point)
+- [x] Implement adaptive anomaly index (softmax weighting)
+- [x] Compute final trust score with anomaly penalty
+- [x] Design context-aware, rule-based task assignment policy (modular, extensible, separated)
+- [ ] Create ZTA environment class or wrapper for simulation
+- [ ] Integrate ZTA logic into simulation loop (demo script)
+- [ ] Write README.md explaining ZTA approach and usage
+- [ ] Add test scenarios for normal, malicious, and on-off nodes
+- [ ] (Optional) Add unit tests for trust and policy logic 

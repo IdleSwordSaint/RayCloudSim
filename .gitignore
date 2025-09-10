@@ -1,1 +1,46 @@
+# Python bytecode/cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
 env/
+.venv/
+venv/
+ENV/
+.env/
+.python-version
+
+# Build artifacts
+build/
+dist/
+downloads/
+wheels/
+*.egg-info/
+.eggs/
+*.egg
+
+# Test/coverage caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Tools / editors
+.idea/
+.vscode/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Project logs and generated frames
+logs/
+
+# Local report export (keep source Markdown tracked)
+zta/report.pdf

@@ -1,0 +1,13 @@
+{
+  "Nodes": [
+    {"NodeId": 0, "NodeName": "n0", "NodeType": "ZTANode", "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 0, "LocY": 0, "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 1, "NodeName": "n1", "NodeType": "ZTANode", "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 1, "LocY": 0, "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 2, "NodeName": "n2", "NodeType": "ZTANode", "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 2, "LocY": 0, "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 3, "NodeName": "n3", "NodeType": "MaliciousNode", "MalType": 1, "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 3, "LocY": 0, "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5}
+  ],
+  "Edges": [
+    {"EdgeType": "Link", "SrcNodeID": 0, "DstNodeID": 1, "Bandwidth": 40},
+    {"EdgeType": "Link", "SrcNodeID": 1, "DstNodeID": 2, "Bandwidth": 40},
+    {"EdgeType": "Link", "SrcNodeID": 2, "DstNodeID": 3, "Bandwidth": 40}
+  ]
+}

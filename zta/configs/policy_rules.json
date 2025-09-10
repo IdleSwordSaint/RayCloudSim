@@ -1,0 +1,11 @@
+{
+  "action_priority": ["quarantine", "test_task_logging", "partial_assignment", "full_assignment_monitoring", "full_assignment"],
+  "allow_quarantine_with_alternatives": true,
+  "rules": [
+    {"when": {"tmin": 0.8, "tmax": 1.0, "amax": 0.3, "threat": "normal"}, "action": "full_assignment"},
+    {"when": {"tmin": 0.6, "tmax": 0.8, "load": "low", "criticality": "high", "threat": "normal"}, "action": "test_task_logging"},
+    {"when": {"tmin": 0.0, "tmax": 0.5, "amin": 0.5}, "action": "quarantine"},
+    {"when": {"tmin": 0.5, "tmax": 0.7, "amax": 0.3, "load": "high", "criticality": "high", "threat": "alert"}, "action": "partial_assignment"},
+    {"when": {"tmin": 0.7, "tmax": 1.0, "amax": 0.2, "load": "high", "criticality": "low", "threat": "normal"}, "action": "full_assignment_monitoring"}
+  ]
+}

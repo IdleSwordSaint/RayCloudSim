@@ -11,7 +11,7 @@ class ZTAPolicy:
         """
         self.config = config or {}
 
-    def act(self, env, task) -> int:
+    def act(self, env, task) -> Tuple[int, str]:
         """
         Select a node for the given task based on ZTA rule-based policy.
 
@@ -41,7 +41,21 @@ class ZTAPolicy:
                 'idx': idx
             })
 
-        # 3. Apply rule-based decision matrix
+        # 3a. Tie-break if all trust equal/near-zero: prefer the source node,
+        # otherwise prefer the most idle node.
+        eps = 1e-9
+        all_zero = all(abs(s['t_final']) < eps for s in node_scores)
+        if all_zero:
+            # Prefer local execution if possible
+            src_name = getattr(task, 'src_name', None)
+            idx_by_name = {name: idx for idx, name in enumerate(node_id2name.values())}
+            if src_name in idx_by_name:
+                return idx_by_name[src_name], 'full_assignment'
+            # Otherwise pick most idle (largest free_cpu_freq)
+            idx = max(range(len(node_scores)), key=lambda i: node_scores[i]['node'].free_cpu_freq)
+            return idx, 'full_assignment'
+
+        # 3b. Apply rule-based decision matrix
         selected_node_idx, action = self._apply_rules(
             node_scores, system_load, criticality, threat_level
         )
@@ -49,13 +63,17 @@ class ZTAPolicy:
         # 4. Optionally log or return action type for monitoring
         # print(f"Selected node: {selected_node_idx}, Action: {action}")
 
-        return selected_node_idx
+        return selected_node_idx, action
 
     # --- Helper methods below ---
 
     def _get_system_load(self, env) -> str:
-        """Return 'high', 'low', or 'normal' based on environment metrics."""
-        # Example: Use average CPU utilization across all nodes
+        """Return 'high', 'low', or 'normal'. Honor env override if present."""
+        # Prefer explicit env state (supports demos/tests/overrides)
+        v = getattr(env, 'system_load', None)
+        if isinstance(v, str) and v in ('low', 'normal', 'high'):
+            return v
+        # Otherwise, infer from utilization
         try:
             nodes = self._get_candidate_nodes(env)[0]
             avg_util = sum(1 - (n.free_cpu_freq / n.max_cpu_freq) for n in nodes) / len(nodes)
@@ -74,8 +92,9 @@ class ZTAPolicy:
         return getattr(env, 'threat_level', 'normal')
 
     def _get_task_criticality(self, task) -> str:
-        """Return 'high' or 'low' based on task attributes."""
-        # Example: Use a 'criticality' attribute or default to 'low'
+        """Return 'high' or 'low' based on task fields/attributes."""
+        if isinstance(task, dict):
+            return task.get('criticality', 'low')
         return getattr(task, 'criticality', 'low')
 
     def _get_candidate_nodes(self, env) -> Tuple[List[Any], Dict[int, str]]:
@@ -92,13 +111,56 @@ class ZTAPolicy:
     def _apply_rules(self, node_scores, system_load, criticality, threat_level):
         """
         Implements the rule-based matrix. Returns (selected_node_idx, action_type).
+        Supports external rule config via self.config['rules'].
         """
-        # You can expand this logic as needed for your full rule matrix
+        rules = self.config.get('rules')
+        if rules:
+            # Determine action for each node
+            def match(rule, t, a) -> bool:
+                cond = rule.get('when', {})
+                tmin = cond.get('tmin', 0.0); tmax = cond.get('tmax', 1.0)
+                amin = cond.get('amin', 0.0); amax = cond.get('amax', 1.0)
+                if not (tmin <= t <= tmax and amin <= a <= amax):
+                    return False
+                if 'load' in cond and cond['load'] != system_load:
+                    return False
+                if 'criticality' in cond and cond['criticality'] != criticality:
+                    return False
+                if 'threat' in cond and cond['threat'] != threat_level:
+                    return False
+                return True
+
+            node_actions = []
+            for s in node_scores:
+                t, a, idx = s['t_final'], s['anomaly'], s['idx']
+                action = None
+                for r in rules:
+                    if match(r, t, a):
+                        action = r.get('action', 'full_assignment')
+                        break
+                if action is None:
+                    action = 'full_assignment'
+                node_actions.append((idx, action, t))
+
+            # Choose best action/node by priority then by highest trust
+            priority = self.config.get('action_priority', [
+                'quarantine', 'test_task_logging', 'partial_assignment', 'full_assignment_monitoring', 'full_assignment'
+            ])
+            pr_index = {name: i for i, name in enumerate(priority)}
+            # Optionally exclude quarantine if any non-quarantine exists
+            if self.config.get('allow_quarantine_with_alternatives', True):
+                candidates = node_actions
+            else:
+                non_quarantine = [na for na in node_actions if na[1] != 'quarantine']
+                candidates = non_quarantine if non_quarantine else node_actions
+            best = min(candidates, key=lambda na: (pr_index.get(na[1], 999), -na[2]))
+            return best[0], best[1]
+
+        # Built-in default rule set if no external rules provided
         for score in node_scores:
             t = score['t_final']
             a = score['anomaly']
             idx = score['idx']
-            # Example rules (expand as per your matrix)
             if t > 0.8 and a < 0.3 and threat_level == 'normal':
                 return idx, 'full_assignment'
             elif 0.6 <= t <= 0.8 and criticality == 'low' and threat_level == 'normal':
@@ -109,6 +171,5 @@ class ZTAPolicy:
                 return idx, 'partial_assignment'
             elif t > 0.7 and a < 0.2 and system_load == 'high' and criticality == 'low' and threat_level == 'normal':
                 return idx, 'full_assignment_monitoring'
-        # Default: pick the node with highest t_final
         best_idx = max(range(len(node_scores)), key=lambda i: node_scores[i]['t_final'])
-        return best_idx, 'default' 
+        return best_idx, 'full_assignment'

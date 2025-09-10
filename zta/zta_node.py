@@ -64,7 +64,8 @@ class ZTANode(Node):
     def compute_feedback_trust(self, method='iqr') -> float:
         all_scores = [score for scores in self.feedback_scores.values() for score in scores]
         if not all_scores:
-            return 0.0
+            # Neutral baseline when no feedback is available
+            return 0.5
 
         if method == 'iqr':
             q1, q3 = np.percentile(all_scores, [25, 75])
@@ -91,16 +92,23 @@ class ZTANode(Node):
         overuse = [task['resource_usage'].get('overuse', 0.0) for task in self.task_history]
         norm_delay = np.clip(np.mean(delays), 0, 1) if delays else 0.0
         norm_overuse = np.clip(np.mean(overuse), 0, 1) if overuse else 0.0
-        return 1.0 - (norm_delay + norm_overuse)
+        # Clip to [0, 1]
+        return max(0.0, 1.0 - (norm_delay + norm_overuse))
 
     def compute_fused_trust(self) -> float:
-        """Compute fused trust using geometric and arithmetic aggregation."""
-        tperf = self.compute_performance_trust()
-        tfb = self.compute_feedback_trust()
-        tbeh = self.compute_behavioral_trust()
-        denom = (tperf + tfb + tbeh) / 3 if (tperf + tfb + tbeh) else 1.0
-        numer = np.sqrt(tperf * tfb * tbeh) if tperf * tfb * tbeh > 0 else 0.0
-        return numer / denom
+        """
+        Compute fused trust using a weighted arithmetic aggregation that avoids
+        collapse to zero when any component is zero or missing.
+
+        Returns a value in [0, 1].
+        """
+        tperf = np.clip(self.compute_performance_trust(), 0.0, 1.0)
+        tfb = np.clip(self.compute_feedback_trust(), 0.0, 1.0)
+        tbeh = np.clip(self.compute_behavioral_trust(), 0.0, 1.0)
+
+        w_perf, w_fb, w_beh = 0.4, 0.3, 0.3
+        fused = w_perf * tperf + w_fb * tfb + w_beh * tbeh
+        return float(np.clip(fused, 0.0, 1.0))
 
     def compute_anomaly_metrics(self, sigma_max: float = 0.25, cmax: int = 3) -> tuple:
         """

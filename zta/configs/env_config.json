@@ -1,0 +1,17 @@
+{
+  "Basic": {
+    "VisFrame": "off",
+    "Train": "off",
+    "Test": "off"
+  },
+  "VisFrame": {
+    "LogInfoPath": "logs/vis_zta",
+    "LogFramesPath": "logs/vis_zta/frames",
+    "TargetNodeList": ["n0", "n1", "n2", "n3"]
+  },
+  "Train": {
+    "CloseLogger": "True"
+  },
+  "Test": {}
+}
+

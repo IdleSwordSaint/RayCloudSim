@@ -1,0 +1,36 @@
+{
+  "Nodes": [
+    {"NodeId": 0, "NodeName": "n0", "NodeType": "ZTANode", "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 0,  "LocY": 0,  "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 1, "NodeName": "n1", "NodeType": "ZTANode", "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 10, "LocY": 0,  "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 2, "NodeName": "n2", "NodeType": "ZTANode", "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 20, "LocY": 0,  "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 3, "NodeName": "n3", "NodeType": "MaliciousNode", "MalType": 1, "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 30, "LocY": 0,  "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 4, "NodeName": "n4", "NodeType": "ZTANode", "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 40, "LocY": 0,  "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 5, "NodeName": "n5", "NodeType": "ZTANode", "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 0,  "LocY": 10, "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 6, "NodeName": "n6", "NodeType": "ZTANode", "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 10, "LocY": 10, "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 7, "NodeName": "n7", "NodeType": "ZTANode", "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 20, "LocY": 10, "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 8, "NodeName": "n8", "NodeType": "MaliciousNode", "MalType": 1, "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 30, "LocY": 10, "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5},
+    {"NodeId": 9, "NodeName": "n9", "NodeType": "ZTANode", "MaxCpuFreq": 10, "MaxBufferSize": 100, "LocX": 40, "LocY": 10, "IdleEnergyCoef": 0.0, "ExeEnergyCoef": 0.0001, "TrustWindow": 5}
+  ],
+  "Edges": [
+    {"EdgeType": "Link", "SrcNodeID": 0, "DstNodeID": 1, "Bandwidth": [60, 60]},
+    {"EdgeType": "Link", "SrcNodeID": 1, "DstNodeID": 2, "Bandwidth": [60, 60]},
+    {"EdgeType": "Link", "SrcNodeID": 2, "DstNodeID": 3, "Bandwidth": [50, 50]},
+    {"EdgeType": "Link", "SrcNodeID": 3, "DstNodeID": 4, "Bandwidth": [50, 50]},
+
+    {"EdgeType": "Link", "SrcNodeID": 5, "DstNodeID": 6, "Bandwidth": [60, 60]},
+    {"EdgeType": "Link", "SrcNodeID": 6, "DstNodeID": 7, "Bandwidth": [60, 60]},
+    {"EdgeType": "Link", "SrcNodeID": 7, "DstNodeID": 8, "Bandwidth": [50, 50]},
+    {"EdgeType": "Link", "SrcNodeID": 8, "DstNodeID": 9, "Bandwidth": [50, 50]},
+
+    {"EdgeType": "Link", "SrcNodeID": 0, "DstNodeID": 5, "Bandwidth": [70, 70]},
+    {"EdgeType": "Link", "SrcNodeID": 1, "DstNodeID": 6, "Bandwidth": [70, 70]},
+    {"EdgeType": "Link", "SrcNodeID": 2, "DstNodeID": 7, "Bandwidth": [70, 70]},
+    {"EdgeType": "Link", "SrcNodeID": 3, "DstNodeID": 8, "Bandwidth": [70, 70]},
+    {"EdgeType": "Link", "SrcNodeID": 4, "DstNodeID": 9, "Bandwidth": [70, 70]},
+
+    {"EdgeType": "Link", "SrcNodeID": 1, "DstNodeID": 5, "Bandwidth": [40, 40]},
+    {"EdgeType": "Link", "SrcNodeID": 6, "DstNodeID": 2, "Bandwidth": [40, 40]},
+    {"EdgeType": "Link", "SrcNodeID": 6, "DstNodeID": 8, "Bandwidth": [40, 40]}
+  ]
+}
+
