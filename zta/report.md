@@ -108,8 +108,3 @@ You’ll see the “state” lines during assignment and a trust/anomaly summary
   - VS Code: Open file → “Print…” → Save as PDF (or use a Markdown PDF extension).  
   - Or, if you have Pandoc/LaTeX:  
     `pandoc zta/report.md -o zta/report.pdf`
-
----
-
-If you want me to hard‑align the math and thresholds to your PDF (verbatim), send the exact equations/weights and I’ll swap them into `zta/zta_node.py` and `zta/configs/policy_rules.json`.
-
