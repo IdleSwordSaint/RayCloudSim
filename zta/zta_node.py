@@ -160,25 +160,24 @@ class ZTANode(Node):
         norm_overuse = float(np.mean(norm_overuses)) if norm_overuses else 0.0
         return max(0.0, 1.0 - (norm_delay + norm_overuse))
 
-    def compute_fused_trust(self) -> float:
-        """Compute fused trust.
 
-        Modes:
-        - "paper": Eq.(4): (tperf * tfb * tbeh) / (tperf + tfb + tbeh)
-        - "robust": geo–arith blend with sqrt smoothing to prevent collapse
-        """
+    def compute_fused_trust(self) -> float:
+        """Compute fused trust based on the paper's formula."""
         tperf = np.clip(self.compute_performance_trust(), 0.0, 1.0)
         tfb = np.clip(self.compute_feedback_trust(), 0.0, 1.0)
         tbeh = np.clip(self.compute_behavioral_trust(), 0.0, 1.0)
 
-        if self.fused_mode == "paper":
-            denom = max(tperf + tfb + tbeh, 1e-12)
-            fused = (tperf * tfb * tbeh) / denom
-        else:
-            eps = 1e-3
-            g = ((tperf + eps) * (tfb + eps) * (tbeh + eps)) ** (1.0 / 3.0)
-            a = (tperf + tfb + tbeh) / 3.0
-            fused = math.sqrt(g * a)
+        # Use a small epsilon to avoid division by zero or log(0) issues
+        eps = 1e-9
+
+        product = (tperf + eps) * (tfb + eps) * (tbeh + eps)
+        arithmetic_mean = (tperf + tfb + tbeh) / 3.0
+
+        # Denominator should not be zero
+        if arithmetic_mean < eps:
+            return 0.0
+
+        fused = math.sqrt(product / arithmetic_mean)
 
         return float(np.clip(fused, 0.0, 1.0))
 
@@ -195,16 +194,24 @@ class ZTANode(Node):
         cmax = self.cmax if cmax is None else cmax
         window = self.get_trust_window()
         k = len(window)
+
         if k < 2:
             return 0.0, 0.0, 0.0
+
         # Oscillation: number of trust flips / (k-1)
         flips = sum((window[i] - window[i-1]) * (window[i+1] - window[i]) < 0 for i in range(1, k-1))
-        osc = flips / max(1, (k - 2)) if k >= 3 else 0.0
+        
+        # --- CORRECTED LINE ---
+        # The denominator is now (k-1) to match the paper's formula.
+        osc = flips / (k - 1)
+        
         # Variance: std / sigma_max
         var = float(np.std(window)) / sigma_max if sigma_max else 0.0
+        
         # Change points: count large jumps / cmax
         change_points = sum(abs(window[i+1] - window[i]) > self.cp_threshold for i in range(k - 1))
         cp = change_points / cmax if cmax else 0.0
+        
         return osc, var, cp
 
     def compute_anomaly_index(self, sigma_max: float = None, cmax: int = None) -> float:
