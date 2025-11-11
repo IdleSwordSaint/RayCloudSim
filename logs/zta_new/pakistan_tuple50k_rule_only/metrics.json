@@ -1,0 +1,9 @@
+{
+  "success_rate": 0.9801428571428571,
+  "avg_latency": 12.189304716806175,
+  "detections": 0,
+  "false_positives": 0,
+  "quarantine_latency": 0.0,
+  "reward_variance": 0.01953381981248631,
+  "veto_frequency": 0.0
+}

@@ -44,3 +44,5 @@ logs/
 
 # Local report export (keep source Markdown tracked)
 zta/report.pdf
+logs/*/*/summary.json
+logs/*/*/summary.json
