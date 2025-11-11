@@ -321,6 +321,7 @@ class ZTAEnv:
         policy: Optional[ZTAPolicy] = None,
         window_size: int = 5,
         logger: Optional[Any] = None,
+        config_file: Optional[str] = None,
     ):
         self.scenario = scenario
         self.controller = simpy.Environment()
@@ -347,6 +348,34 @@ class ZTAEnv:
 
         # --- ADDED: Dictionary to count policy actions ---
         self.action_counts: Dict[str, int] = {}
+
+        # --- Visualization config (mirror core/env.py minimal bits) ---
+        # Load ZTA env-config if provided; default to zta/configs/env_config.json
+        # This enables recording per-tick frame info and later video export via core.vis
+        self.refresh_rate = 1
+        if config_file is None:
+            # default to zta/configs/env_config.json (relative to this file)
+            config_file = os.path.join(os.path.dirname(__file__), 'configs', 'env_config.json')
+        try:
+            with open(config_file, 'r') as f:
+                self.config = json.load(f)
+        except Exception:
+            # Fallback minimal config if missing; visualization remains off
+            self.config = {
+                "Basic": {"VisFrame": "off", "Train": "off", "Test": "off"},
+                "VisFrame": {
+                    "LogInfoPath": "logs/vis_zta",
+                    "LogFramesPath": "logs/vis_zta/frames",
+                    "TargetNodeList": []
+                },
+            }
+
+        # Validate and start recorder if enabled
+        if self.config.get('Basic', {}).get('VisFrame') == 'on':
+            self._validate_config()
+            self._setup_visualization_directories()
+            self.frame_info: Dict[float, dict] = {}
+            self.frame_recorder = self.controller.process(self._record_frame_info())
 
     @property
     def now(self) -> float:
@@ -436,6 +465,15 @@ class ZTAEnv:
         ddl = _task_field(task, 'ddl', -1)
         exe_time = (task_size * cycles_per_bit) / max(1, dst.max_cpu_freq)
 
+        # Track the task as ACTIVE on the destination node so the
+        # frame overlay can display it while executing.
+        task_id_str = str(_task_field(task, 'task_id', _task_field(task, 'id', 'unknown')))
+        try:
+            if task_id_str not in getattr(dst, 'active_task_ids', []):
+                dst.active_task_ids.append(task_id_str)
+        except Exception:
+            pass
+
         prev = dst.free_cpu_freq
         dst.free_cpu_freq = 0
         yield self.controller.timeout(exe_time)
@@ -456,7 +494,7 @@ class ZTAEnv:
             delay_norm = exe_time / (1.0 + exe_time)
 
         dst.add_task_result(
-            task_id=str(_task_field(task, 'task_id', _task_field(task, 'id', 'unknown'))),
+            task_id=task_id_str,
             success=success,
             delay=delay_norm,
             resource_usage={"overuse": overuse},
@@ -465,7 +503,13 @@ class ZTAEnv:
         )
         dst.compute_final_trust()
         self.done_task_info.append({"task": task, "node": dst_name})
-        self.active_tasks.pop(str(_task_field(task, 'task_id', _task_field(task, 'id', 'unknown'))), None)
+        self.active_tasks.pop(task_id_str, None)
+        # Remove from ACTIVE now that execution has finished
+        try:
+            if task_id_str in getattr(dst, 'active_task_ids', []):
+                dst.active_task_ids.remove(task_id_str)
+        except Exception:
+            pass
 
     # --- State management ---
     def update_system_load(self):
@@ -591,3 +635,95 @@ class ZTAEnv:
     def clear_overrides(self):
         self._override_system_load = None
         self._override_threat_level = None
+
+    # --- Visualization helpers (mirror of core style) ---
+    def _validate_config(self) -> None:
+        try:
+            max_nodes = 20
+            target_nodes = len(self.config['VisFrame'].get('TargetNodeList', []))
+            assert target_nodes <= max_nodes
+        except Exception:
+            pass
+
+    def _setup_visualization_directories(self) -> None:
+        os.makedirs(self.config['VisFrame']['LogInfoPath'], exist_ok=True)
+        os.makedirs(self.config['VisFrame']['LogFramesPath'], exist_ok=True)
+
+    def _record_frame_info(self):
+        """Record per-tick metrics for video frames.
+
+        Node metric can be configured via env.config['VisFrame']['NodeMetric']:
+          - 'cpu' (default fallback): CPU utilization ratio in [0,1]
+          - 'final_trust': fused_trust/(1+anomaly) in [0,1]
+          - 'anomaly': current anomaly index clipped to [0,1]
+        """
+        while True:
+            node_metric = (self.config.get('VisFrame', {}).get('NodeMetric') or 'final_trust').lower()
+            nodes = self.scenario.get_nodes()
+            if node_metric == 'final_trust':
+                node_vals = {}
+                for k, n in nodes.items():
+                    try:
+                        fused = n.compute_fused_trust()
+                        a = float(getattr(n, 'anomaly_index', 0.0))
+                        node_vals[k] = max(0.0, min(1.0, fused / (1.0 + a)))
+                    except Exception:
+                        node_vals[k] = 0.0
+            elif node_metric == 'anomaly':
+                node_vals = {k: float(max(0.0, min(1.0, getattr(n, 'anomaly_index', 0.0)))) for k, n in nodes.items()}
+            else:
+                # cpu utilization ratio
+                node_vals = {k: n.quantify_cpu_freq() for k, n in nodes.items()}
+
+            self.frame_info[self.now] = {
+                'node': node_vals,
+                'edge': {str(k): l.quantify_bandwidth() for k, l in self.scenario.get_links().items()},
+            }
+            # include tracked nodes' metrics for overlay panel
+            tgt = self.config.get('VisFrame', {}).get('TargetNodeList', [])
+            if tgt:
+                overlay = {}
+                for name in tgt:
+                    if name not in nodes:
+                        continue
+                    n = nodes[name]
+                    try:
+                        fused = n.compute_fused_trust()
+                        a = float(getattr(n, 'anomaly_index', 0.0))
+                        t_final = max(0.0, min(1.0, fused / (1.0 + a)))
+                        # Fill the right bracket with the node's active tasks.
+                        # If none are active at this tick, fall back to queued tasks
+                        # so the panel remains informative.
+                        active = [str(x) for x in getattr(n, 'active_task_ids', [])]
+                        if not active:
+                            try:
+                                active = [str(x) for x in getattr(getattr(n, 'task_buffer', None), 'task_ids', [])]
+                            except Exception:
+                                active = []
+                        overlay[name] = [[f"t:{t_final:.2f}", f"a:{a:.2f}"], active]
+                    except Exception:
+                        # Still try to report active/queued tasks if available
+                        active = [str(x) for x in getattr(n, 'active_task_ids', [])]
+                        if not active:
+                            try:
+                                active = [str(x) for x in getattr(getattr(n, 'task_buffer', None), 'task_ids', [])]
+                            except Exception:
+                                active = []
+                        overlay[name] = [["t:NA", "a:NA"], active]
+                self.frame_info[self.now]['target'] = overlay
+            yield self.controller.timeout(self.refresh_rate)
+
+    def close(self):
+        """Flush frame_info to JSON and stop recorder if visualization enabled."""
+        if self.config.get('Basic', {}).get('VisFrame') == 'on':
+            try:
+                data = json.dumps(self.frame_info, indent=4)
+                with open(os.path.join(self.config['VisFrame']['LogInfoPath'], 'frame_info.json'), 'w+') as fw:
+                    fw.write(data)
+            except Exception:
+                pass
+            try:
+                if getattr(self, 'frame_recorder', None) and self.frame_recorder.is_alive:
+                    self.frame_recorder.interrupt()
+            except Exception:
+                pass

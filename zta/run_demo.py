@@ -116,6 +116,7 @@ sys.path.insert(0, parent_dir)
 import json
 from zta.scenario import ZTAScenario
 from zta.env import ZTAEnv
+from zta.vis import vis_frame2video
 from zta.zta_policy import ZTAPolicy
 
 def main():
@@ -124,7 +125,12 @@ def main():
     scenario = ZTAScenario(config_file=os.path.join(current_dir, 'configs', 'zta_complex_topology.json'))
     with open(os.path.join(current_dir, 'configs', 'policy_rules.json'), 'r') as f:
         policy_cfg = json.load(f)
-    env = ZTAEnv(scenario, policy=ZTAPolicy(policy_cfg))
+    # Pass ZTA env-config to enable visualization if desired
+    env = ZTAEnv(
+        scenario,
+        policy=ZTAPolicy(policy_cfg),
+        config_file=os.path.join(current_dir, 'configs', 'env_config.json'),
+    )
 
     num_nodes = len(scenario.get_nodes())
 
@@ -173,6 +179,11 @@ def main():
             print("\n---", name, "---\n" + info)
         except AttributeError:
             pass
+
+    # Flush frame_info and optionally build video if visualization is enabled
+    env.close()
+    if env.config.get('Basic', {}).get('VisFrame') == 'on':
+        vis_frame2video(env)
 
 if __name__ == '__main__':
     main()

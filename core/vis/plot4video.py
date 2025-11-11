@@ -32,17 +32,24 @@ def plot_frame(graph, values, config_file, save_as):
         json_node = json_object['Node']
         json_edge = json_object['Edge']
     
-    fig, ax = plt.subplots(1, 1, figsize=(12, 6))
+    # Slightly smaller figure with extra right margin so the
+    # overlay panel (node details) fits without clipping.
+    fig, ax = plt.subplots(1, 1, figsize=(11, 5.5))
+    plt.subplots_adjust(left=0.08, right=0.72)
     plt.title(f"{values['now']}")
 
     node_data = nx.get_node_attributes(graph, 'data')
     labels = {k: v.node_id for k, v in node_data.items()}
     if json_node['Basic']['colorWeight'] == 'on':
-        node_color = [colors['red'] if v == 1 else colors['blue'] if v == 0 else colors['green']
-                      for v in values['node'].values()]
-        # node_cmap = plt.cm.get_cmap(json_node['ColorWeight']['cmap'])
-        node_cmap_colors = [(0, colors['purple']), (0.25, colors['blue']), (0.5, colors['green']), 
-                            (0.75, colors['orange']), (1, colors['red'])]
+        # Use numeric values directly and map with a continuous colormap in [0,1]
+        node_color = list(values['node'].values())
+        node_cmap_colors = [
+            (0, colors['purple']),
+            (0.25, colors['blue']),
+            (0.5, colors['green']),
+            (0.75, colors['orange']),
+            (1, colors['red']),
+        ]
         node_cmap = mcolors.LinearSegmentedColormap.from_list('custom_cmap', node_cmap_colors)
     else:
         node_color = json_node['Basic']['color']
@@ -62,11 +69,14 @@ def plot_frame(graph, values, config_file, save_as):
     if not pos:
         pos = nx.spring_layout(graph, seed=0)
 
-    nx.draw_networkx_nodes(
+    coll = nx.draw_networkx_nodes(
         graph,
         pos=pos,
         node_size=json_node['Basic']['size'],
         node_color=node_color,
+        cmap=node_cmap,
+        vmin=0,
+        vmax=1,
         node_shape=json_node['Basic']['shape'],
         linewidths=json_node['Basic']['linewidths'],
         alpha=json_node['Basic']['alpha'],
@@ -114,18 +124,22 @@ def plot_frame(graph, values, config_file, save_as):
                            format=lambda x, _: f"{x:.0%}")
     edge_cb.set_label("Link", fontsize=10, labelpad=-5)
 
+    # Right-side overlay: wrap long lines instead of truncating with '...'
     props = dict(boxstyle='round', facecolor='grey', alpha=0.15)  # bbox features
-    info = []
-    for k, v in values['target'].items():
-        text = f"{k}: {v[0]} <-- {v[1]}"
-        info.append("{:<50}".format(textwrap.shorten(text, width=45, placeholder="...")))
-    info = "\n\n".join(info)
-    ax.text(1.2, 0.5, 
-            info, 
-            transform=ax.transAxes, 
-            fontsize=12, 
-            verticalalignment='center', 
-            bbox=props)
+    if 'target' in values and values['target']:
+        info_blocks = []
+        for k, v in values['target'].items():
+            text = f"{k}: {v[0]} <-- {v[1]}"
+            wrapped = textwrap.fill(text, width=40, break_long_words=False, break_on_hyphens=False)
+            info_blocks.append(wrapped)
+        info = "\n".join(info_blocks)
+        # Place the overlay in figure coordinates so it never gets
+        # cropped by the axes. The colorbar sits between axes and this box.
+        fig.text(0.76, 0.5,
+                 info,
+                 fontsize=9,
+                 va='center', ha='left',
+                 bbox=props)
     plt.tight_layout()
 
     # # Change the color of node boundary
@@ -160,16 +174,25 @@ def frame2video(img_path, video_save_as):
 
 
 def vis_frame2video(env):
-    """Build the simulation video, based on the simulation logs."""
+    """Build the simulation video, based on the simulation logs.
+
+    Resolves the visualization config relative to this module so it works
+    no matter where the script is launched from.
+    """
     frame_save_path = f"{env.config['VisFrame']['LogFramesPath']}"
     if len(os.listdir(frame_save_path)) == 0:
         with open(f"{env.config['VisFrame']['LogInfoPath']}/frame_info.json", 'r') as fr:
             info4frame = json.load(fr)
+
+        # Resolve config path relative to this file instead of CWD
+        here = os.path.dirname(os.path.abspath(__file__))
+        cfg_path = os.path.join(here, 'configs', 'vis_config_4video.json')
+
         for k, v in tqdm(info4frame.items()):
             v['now'] = k
             plot_frame(env.scenario.infrastructure.graph,
-                       v, 
-                       config_file="core/vis/configs/vis_config_4video.json", 
+                       v,
+                       config_file=cfg_path,
                        save_as=f"{frame_save_path}/frame_{k}.png")
-    
+
     frame2video(frame_save_path, f"{env.config['VisFrame']['LogInfoPath']}/out.avi")

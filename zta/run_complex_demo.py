@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import csv
+import subprocess
 
 # Add parent directory to path to import ZTA modules
 current_file_path = os.path.abspath(__file__)
@@ -13,6 +14,7 @@ sys.path.insert(0, parent_dir)
 from zta.scenario import ZTAScenario
 from zta.env import ZTAEnv
 from zta.zta_policy import ZTAPolicy
+from zta.vis.plots import render_zta_summary
 
 def run_demo_from_csv(csv_filepath):
     """
@@ -92,6 +94,51 @@ def run_demo_from_csv(csv_filepath):
     else:
         for action, count in sorted(env.action_counts.items()):
             print(f"- {action}: {count}")
+
+    # Flush any frame info for optional video building
+    try:
+        env.close()
+    except Exception:
+        pass
+
+    # --- Visualization Summaries ---
+    out_dir = os.path.join(current_dir, 'logs')
+    try:
+        outputs = render_zta_summary(env, scenario, save_dir=out_dir)
+        print("\n--- SAVED PLOTS ---")
+        for k, v in outputs.items():
+            print(f"- {k}: {v}")
+        # Try to build a video automatically
+        try:
+            # Prefer a non-interactive backend for safety
+            os.environ.setdefault('MPLBACKEND', 'Agg')
+            from zta.vis import vis_frame2video
+            # Ensure fresh frames per run
+            frames_dir = os.path.join(current_dir, 'logs', 'vis_zta', 'frames')
+            try:
+                import glob
+                for p in glob.glob(os.path.join(frames_dir, '*.png')):
+                    os.remove(p)
+            except Exception:
+                pass
+            vis_frame2video(env)
+            video_path = os.path.join(current_dir, 'logs', 'vis_zta', 'out.avi')
+            print(f"\n--- VIDEO BUILT ---\n- video: {video_path}")
+        except Exception as video_err:
+            # Fallback: attempt using the repo root venv if available
+            root_python = os.path.join(parent_dir, '.venv', 'bin', 'python')
+            make_script = os.path.join(current_dir, 'make_video.py')
+            try:
+                if os.path.exists(root_python) and os.path.exists(make_script):
+                    print("Video build failed in local env; retrying via repo venv...")
+                    subprocess.run([root_python, make_script], check=True)
+                    print(f"\n--- VIDEO BUILT (fallback) ---\n- video: {os.path.join(current_dir, 'logs', 'vis_zta', 'out.avi')}")
+                else:
+                    raise RuntimeError(str(video_err))
+            except Exception as e2:
+                print("\nVideo build skipped. To build manually, run:\n  . .venv/bin/activate\n  python zta/make_video.py")
+    except Exception as e:
+        print(f"Visualization error: {e}")
 
 if __name__ == '__main__':
     event_file = 'complex_scenario_events.csv'

@@ -67,6 +67,14 @@ The policy selects actions strictly from this JSON (priority is configurable).
   `python zta/run_demo.py`
 - All-rule demo (triggers every action row):  
   `python zta/run_rules_demo.py`
+- Complex timeline demo:  
+  `cd zta && . .venv/bin/activate && python run_complex_demo.py`
+  - Saves plots to `zta/logs/`:
+    - `plots_action_counts.png`
+    - `plots_node_metrics.png`
+    - `topology_trust.png`
+  - Also records per-tick frames to `zta/logs/vis_zta/frame_info.json`.
+    Build a video after the run: `python zta/make_video.py`
 
 You’ll see the “state” lines during assignment and a trust/anomaly summary per node at the end.
 
