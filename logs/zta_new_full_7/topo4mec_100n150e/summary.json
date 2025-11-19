@@ -1,0 +1,915 @@
+{
+  "dataset_name": "topo4mec_100n150e",
+  "description": "Dense macro topology; six ingress points retained for tractable zero-trust simulation.",
+  "tasks_processed": 125000,
+  "success_rate": 0.942808,
+  "avg_latency": 21.074443009765808,
+  "node_snapshots": {
+    "n0": {
+      "final_trust": 0.9318706184718274,
+      "anomaly": 0.0,
+      "success_rate": 0.96,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n1": {
+      "final_trust": 0.8563989323087118,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.8181818181818182,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n2": {
+      "final_trust": 0.9198590937932025,
+      "anomaly": 0.0,
+      "success_rate": 0.9230769230769231,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n3": {
+      "final_trust": 0.931871735765099,
+      "anomaly": 0.0,
+      "success_rate": 0.953125,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n4": {
+      "final_trust": 0.936737257948715,
+      "anomaly": 0.0,
+      "success_rate": 0.9551282051282052,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n5": {
+      "final_trust": 0.9532708174181728,
+      "anomaly": 0.0,
+      "success_rate": 0.9659753247137489,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n6": {
+      "final_trust": 0.872599411951142,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.8928571428571429,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n7": {
+      "final_trust": 0.8598255483798922,
+      "anomaly": 0.051500002109205675,
+      "success_rate": 0.8787878787878788,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n8": {
+      "final_trust": 0.8446426455760452,
+      "anomaly": 0.04648303007864113,
+      "success_rate": 0.8556701030927835,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n9": {
+      "final_trust": 0.8500514148087336,
+      "anomaly": 0.0282463756867156,
+      "success_rate": 0.8648648648648649,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n10": {
+      "final_trust": 0.9120292675032334,
+      "anomaly": 0.0,
+      "success_rate": 0.9102296450939458,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n11": {
+      "final_trust": 0.9181958571073876,
+      "anomaly": 0.0,
+      "success_rate": 0.9238095238095239,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n12": {
+      "final_trust": 0.9134440548544569,
+      "anomaly": 0.0,
+      "success_rate": 0.9335788416471376,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n13": {
+      "final_trust": 0.8812443804802231,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.8969072164948454,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n14": {
+      "final_trust": 0.9074914182988715,
+      "anomaly": 0.0,
+      "success_rate": 0.9241706161137441,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n15": {
+      "final_trust": 0.8825743850561029,
+      "anomaly": 0.0282463756867156,
+      "success_rate": 0.881578947368421,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n16": {
+      "final_trust": 0.9238025879478238,
+      "anomaly": 0.0,
+      "success_rate": 0.9368421052631579,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n17": {
+      "final_trust": 0.9204849597470226,
+      "anomaly": 0.0,
+      "success_rate": 0.9288256227758007,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n18": {
+      "final_trust": 0.8706183175907282,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.8651315789473685,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n19": {
+      "final_trust": 0.8772248599505419,
+      "anomaly": 0.0282463756867156,
+      "success_rate": 0.8767123287671232,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n20": {
+      "final_trust": 0.9377574443789964,
+      "anomaly": 0.0,
+      "success_rate": 0.9795918367346939,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n21": {
+      "final_trust": 0.9217093339157857,
+      "anomaly": 0.0,
+      "success_rate": 0.9411764705882353,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n22": {
+      "final_trust": 0.9183957446612829,
+      "anomaly": 0.0,
+      "success_rate": 0.9183673469387755,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n23": {
+      "final_trust": 0.8713413834168368,
+      "anomaly": 0.04648303007864113,
+      "success_rate": 0.9183673469387755,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n24": {
+      "final_trust": 0.884275232634295,
+      "anomaly": 0.0282463756867156,
+      "success_rate": 0.9178237003551825,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n25": {
+      "final_trust": 0.9137317764910702,
+      "anomaly": 0.0,
+      "success_rate": 0.9237113402061856,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n26": {
+      "final_trust": 0.8904079045809834,
+      "anomaly": 0.01726587384905707,
+      "success_rate": 0.8933333333333333,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n27": {
+      "final_trust": 0.91957171859954,
+      "anomaly": 0.0,
+      "success_rate": 0.9066666666666666,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n28": {
+      "final_trust": 0.9146068542973675,
+      "anomaly": 0.0,
+      "success_rate": 0.9335260115606936,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n29": {
+      "final_trust": 0.9468847427358045,
+      "anomaly": 0.0,
+      "success_rate": 0.9607810132974247,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n30": {
+      "final_trust": 0.941998782534561,
+      "anomaly": 0.0,
+      "success_rate": 0.9649122807017544,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n31": {
+      "final_trust": 0.8356759904928188,
+      "anomaly": 0.03515997937922664,
+      "success_rate": 0.8135593220338984,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n32": {
+      "final_trust": 0.911177375987736,
+      "anomaly": 0.0,
+      "success_rate": 0.9151318543323567,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n33": {
+      "final_trust": 0.911491089836796,
+      "anomaly": 0.01726587384905707,
+      "success_rate": 0.9411764705882353,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n34": {
+      "final_trust": 0.8758738703616434,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.9056603773584906,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n35": {
+      "final_trust": 0.8951764281172946,
+      "anomaly": 0.01726587384905707,
+      "success_rate": 0.907563025210084,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n36": {
+      "final_trust": 0.9342837324241293,
+      "anomaly": 0.0,
+      "success_rate": 0.9477262523250594,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n37": {
+      "final_trust": 0.8843196845756383,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.9076923076923077,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n38": {
+      "final_trust": 0.8599539718119987,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.875,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n39": {
+      "final_trust": 0.915826416386137,
+      "anomaly": 0.0,
+      "success_rate": 0.9093198992443325,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n40": {
+      "final_trust": 0.9136868248517689,
+      "anomaly": 0.0,
+      "success_rate": 0.9065420560747663,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n41": {
+      "final_trust": 0.93401292948893,
+      "anomaly": 0.0,
+      "success_rate": 0.9494949494949495,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n42": {
+      "final_trust": 0.8925156497213961,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.9122807017543859,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n43": {
+      "final_trust": 0.9406345213183556,
+      "anomaly": 0.0,
+      "success_rate": 0.95,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n44": {
+      "final_trust": 0.8757378796357949,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.9041095890410958,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n45": {
+      "final_trust": 0.9144794477415841,
+      "anomaly": 0.0,
+      "success_rate": 0.921875,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n46": {
+      "final_trust": 0.8526750262990939,
+      "anomaly": 0.01529148404998627,
+      "success_rate": 0.8481675392670157,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n47": {
+      "final_trust": 0.9353716154299416,
+      "anomaly": 0.0,
+      "success_rate": 0.9457831325301205,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n48": {
+      "final_trust": 0.9436437835831254,
+      "anomaly": 0.0,
+      "success_rate": 0.9605263157894737,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n49": {
+      "final_trust": 0.9378426958474005,
+      "anomaly": 0.0,
+      "success_rate": 0.9827586206896551,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n50": {
+      "final_trust": 0.8565613272079657,
+      "anomaly": 0.03382341635119028,
+      "success_rate": 0.9294117647058824,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n51": {
+      "final_trust": 0.9413789676835507,
+      "anomaly": 0.0,
+      "success_rate": 0.944206008583691,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n52": {
+      "final_trust": 0.9383957864577273,
+      "anomaly": 0.0,
+      "success_rate": 0.9342105263157895,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n53": {
+      "final_trust": 0.24852339890228736,
+      "anomaly": 0.6204089783333465,
+      "success_rate": 0.14285714285714285,
+      "quarantine": 1.0,
+      "quarantine_permanent": 1.0,
+      "malicious": 1.0
+    },
+    "n54": {
+      "final_trust": 0.9356237297366472,
+      "anomaly": 0.0,
+      "success_rate": 0.9340659340659341,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n55": {
+      "final_trust": 0.9414607638601427,
+      "anomaly": 0.0,
+      "success_rate": 0.98,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n56": {
+      "final_trust": 0.9338186506519552,
+      "anomaly": 0.0,
+      "success_rate": 0.9622641509433962,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n57": {
+      "final_trust": 0.8366838242872285,
+      "anomaly": 0.017265873849057072,
+      "success_rate": 0.8727272727272727,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n58": {
+      "final_trust": 0.28902178889165897,
+      "anomaly": 0.6031256235878407,
+      "success_rate": 0.2,
+      "quarantine": 1.0,
+      "quarantine_permanent": 1.0,
+      "malicious": 1.0
+    },
+    "n59": {
+      "final_trust": 0.911104718796252,
+      "anomaly": 0.0,
+      "success_rate": 0.935374149659864,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n60": {
+      "final_trust": 0.8743497745161657,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.8727272727272727,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n61": {
+      "final_trust": 0.9170071145750454,
+      "anomaly": 0.0,
+      "success_rate": 0.9047619047619048,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n62": {
+      "final_trust": 0.8523057154410535,
+      "anomaly": 0.04648303007864113,
+      "success_rate": 0.8611111111111112,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n63": {
+      "final_trust": 0.864687510892058,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.851063829787234,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n64": {
+      "final_trust": 0.8838531430520981,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.9007633587786259,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n65": {
+      "final_trust": 0.8637164562762535,
+      "anomaly": 0.01726587384905707,
+      "success_rate": 0.8787644787644787,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n66": {
+      "final_trust": 0.884789984542573,
+      "anomaly": 0.0282463756867156,
+      "success_rate": 0.92,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n67": {
+      "final_trust": 0.9443359646170504,
+      "anomaly": 0.0,
+      "success_rate": 0.9622641509433962,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n68": {
+      "final_trust": 0.9130012537698675,
+      "anomaly": 0.0,
+      "success_rate": 0.9015151515151515,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n69": {
+      "final_trust": 0.8890806114105643,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.8876404494382022,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n70": {
+      "final_trust": 0.9330597597800372,
+      "anomaly": 0.0,
+      "success_rate": 0.9316239316239316,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n71": {
+      "final_trust": 0.8588075427900431,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.8360655737704918,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n72": {
+      "final_trust": 0.9255898433986283,
+      "anomaly": 0.0,
+      "success_rate": 0.9405405405405406,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n73": {
+      "final_trust": 0.8879595828086109,
+      "anomaly": 0.0,
+      "success_rate": 0.8613138686131386,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n74": {
+      "final_trust": 0.9062978014877816,
+      "anomaly": 0.01726587384905707,
+      "success_rate": 0.9338842975206612,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n75": {
+      "final_trust": 0.915318755555615,
+      "anomaly": 0.0,
+      "success_rate": 0.9,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n76": {
+      "final_trust": 0.8874612204911507,
+      "anomaly": 0.0,
+      "success_rate": 0.8444444444444444,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n77": {
+      "final_trust": 0.9392220808202724,
+      "anomaly": 0.0,
+      "success_rate": 0.9787234042553191,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n78": {
+      "final_trust": 0.9179229631487884,
+      "anomaly": 0.0,
+      "success_rate": 0.9230769230769231,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n79": {
+      "final_trust": 0.8757486435520726,
+      "anomaly": 0.04648303007864113,
+      "success_rate": 0.9148936170212766,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n80": {
+      "final_trust": 0.9261849630354999,
+      "anomaly": 0.0,
+      "success_rate": 0.9212598425196851,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n81": {
+      "final_trust": 0.8723806228657436,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.8876404494382022,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n82": {
+      "final_trust": 0.8652964895124587,
+      "anomaly": 0.04648303007864113,
+      "success_rate": 0.9019607843137255,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n83": {
+      "final_trust": 0.8768600843209378,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.875,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n84": {
+      "final_trust": 0.9102127354162324,
+      "anomaly": 0.0,
+      "success_rate": 0.933649289099526,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n85": {
+      "final_trust": 0.8614661140608375,
+      "anomaly": 0.0282463756867156,
+      "success_rate": 0.8580246913580247,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n86": {
+      "final_trust": 0.9351865855941635,
+      "anomaly": 0.0,
+      "success_rate": 0.9354838709677419,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n87": {
+      "final_trust": 0.843772735341435,
+      "anomaly": 0.04648303007864113,
+      "success_rate": 0.8666666666666667,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n88": {
+      "final_trust": 0.9179612833252809,
+      "anomaly": 0.01726587384905707,
+      "success_rate": 0.9377593360995851,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n89": {
+      "final_trust": 0.8828950641038134,
+      "anomaly": 0.0,
+      "success_rate": 0.8352941176470589,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n90": {
+      "final_trust": 0.9378142334080509,
+      "anomaly": 0.0,
+      "success_rate": 0.9541284403669725,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n91": {
+      "final_trust": 0.8517343618014169,
+      "anomaly": 0.051500002109205675,
+      "success_rate": 0.8913043478260869,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n92": {
+      "final_trust": 0.9307510639433394,
+      "anomaly": 0.0,
+      "success_rate": 0.9418604651162791,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n93": {
+      "final_trust": 0.9304085813903533,
+      "anomaly": 0.0,
+      "success_rate": 0.9429819887029735,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n94": {
+      "final_trust": 0.9124102464996495,
+      "anomaly": 0.0,
+      "success_rate": 0.9213483146067416,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n95": {
+      "final_trust": 0.9283381776541908,
+      "anomaly": 0.0,
+      "success_rate": 0.9444444444444444,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n96": {
+      "final_trust": 0.91262620983754,
+      "anomaly": 0.0,
+      "success_rate": 0.9315068493150684,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n97": {
+      "final_trust": 0.8610160381555045,
+      "anomaly": 0.03515997937922664,
+      "success_rate": 0.8935969868173258,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n98": {
+      "final_trust": 0.8744311080629169,
+      "anomaly": 0.0282463756867156,
+      "success_rate": 0.9224806201550387,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "n99": {
+      "final_trust": 0.886746225509181,
+      "anomaly": 0.028246375686715598,
+      "success_rate": 0.9090909090909091,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    }
+  },
+  "policy_history": {
+    "epsilon": [
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02
+    ],
+    "reward": [
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9
+    ],
+    "action": [
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment"
+    ],
+    "node": [
+      "n74",
+      "n74",
+      "n74",
+      "n5",
+      "n5",
+      "n5",
+      "n5",
+      "n5",
+      "n5",
+      "n5"
+    ]
+  },
+  "attack_events": [
+    {
+      "task_id": 7553,
+      "node": "n58",
+      "event": "quarantine_temp",
+      "anomaly": 0.6031256235878407,
+      "final_trust": 0.28902178889165897
+    },
+    {
+      "task_id": 7553,
+      "node": "n58",
+      "event": "quarantine_permanent",
+      "anomaly": 0.6031256235878407,
+      "final_trust": 0.28902178889165897
+    },
+    {
+      "task_id": 27260,
+      "node": "n53",
+      "event": "quarantine_temp",
+      "anomaly": 0.6204089783333465,
+      "final_trust": 0.24852339890228736
+    },
+    {
+      "task_id": 27260,
+      "node": "n53",
+      "event": "quarantine_permanent",
+      "anomaly": 0.6204089783333465,
+      "final_trust": 0.24852339890228736
+    }
+  ],
+  "detection_metrics": {
+    "confusion_matrix": {
+      "tp": 2,
+      "fp": 0,
+      "tn": 98,
+      "fn": 0
+    },
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "accuracy": 1.0,
+    "specificity": 1.0,
+    "mcc": 1.0,
+    "mean_time_to_first_quarantine": 17406.5,
+    "percent_capacity_quarantined": 0.019594594594594596,
+    "temp_quarantine_events": 2,
+    "permanent_quarantine_events": 2,
+    "quarantine_releases": 0,
+    "avg_temp_quarantine_dwell": -1,
+    "reroutes_total": 2,
+    "reroutes_per_task": 1.6e-05,
+    "reroutes_by_node": {
+      "n58": 1,
+      "n53": 1
+    }
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "dataset_name": "pakistan_tuple30k",
+  "description": "Urban Pakistan slice with macro base stations and fog/controller layers. Tasks sampled from the official Tuple30K trainset.",
+  "tasks_processed": 21000,
+  "success_rate": 0.9769523809523809,
+  "avg_latency": 5.464043786667511,
+  "node_snapshots": {
+    "e0": {
+      "final_trust": 0.9532362022884759,
+      "anomaly": 0.0282463756867156,
+      "success_rate": 0.9780487804878049,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "f0": {
+      "final_trust": 0.9122595393285882,
+      "anomaly": 0.06321048540594776,
+      "success_rate": 0.9629629629629629,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "f1": {
+      "final_trust": 0.4296990606544243,
+      "anomaly": 0.6600783339149032,
+      "success_rate": 0.75,
+      "quarantine": 1.0,
+      "quarantine_permanent": 1.0,
+      "malicious": 1.0
+    },
+    "f2": {
+      "final_trust": 0.830497555486045,
+      "anomaly": 0.0688190601974821,
+      "success_rate": 0.7586206896551724,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "f3": {
+      "final_trust": 0.42989011652809433,
+      "anomaly": 0.003314107056293788,
+      "success_rate": 0.3559322033898305,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 1.0
+    },
+    "f4": {
+      "final_trust": 0.9088513067142677,
+      "anomaly": 0.04648303007864113,
+      "success_rate": 0.9122807017543859,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "c0": {
+      "final_trust": 0.979270042839716,
+      "anomaly": 0.0,
+      "success_rate": 0.9787798408488063,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "c1": {
+      "final_trust": 0.9799675584397005,
+      "anomaly": 0.0,
+      "success_rate": 0.9799566313075074,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    }
+  },
+  "policy_history": {
+    "epsilon": [
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02
+    ],
+    "reward": [
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      -1.0,
+      0.9,
+      0.9
+    ],
+    "action": [
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment"
+    ],
+    "node": [
+      "e0",
+      "e0",
+      "e0",
+      "e0",
+      "e0",
+      "e0",
+      "f2",
+      "e0",
+      "e0",
+      "e0"
+    ]
+  },
+  "attack_events": [
+    {
+      "task_id": 1786,
+      "node": "f1",
+      "event": "quarantine_temp",
+      "anomaly": 0.6600783339149032,
+      "final_trust": 0.4296990606544243
+    },
+    {
+      "task_id": 1786,
+      "node": "f1",
+      "event": "quarantine_permanent",
+      "anomaly": 0.6600783339149032,
+      "final_trust": 0.4296990606544243
+    }
+  ],
+  "detection_metrics": {
+    "confusion_matrix": {
+      "tp": 1,
+      "fp": 0,
+      "tn": 6,
+      "fn": 1
+    },
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.6666666666666666,
+    "accuracy": 0.875,
+    "specificity": 1.0,
+    "mcc": 0.6546536707079772,
+    "mean_time_to_first_quarantine": 1786.0,
+    "percent_capacity_quarantined": 0.03508771929824561,
+    "temp_quarantine_events": 1,
+    "permanent_quarantine_events": 1,
+    "quarantine_releases": 0,
+    "avg_temp_quarantine_dwell": -1,
+    "reroutes_total": 1,
+    "reroutes_per_task": 4.761904761904762e-05,
+    "reroutes_by_node": {
+      "f1": 1
+    }
+  }
+}

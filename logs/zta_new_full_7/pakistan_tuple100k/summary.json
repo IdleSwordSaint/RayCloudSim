@@ -1,0 +1,179 @@
+{
+  "dataset_name": "pakistan_tuple100k",
+  "description": "Nation-scale slice with long-haul links; tasks taken from the official Tuple100K trainset.",
+  "tasks_processed": 70000,
+  "success_rate": 0.9798,
+  "avg_latency": 5.583345387858289,
+  "node_snapshots": {
+    "e0": {
+      "final_trust": 0.9561243689902765,
+      "anomaly": 0.0282463756867156,
+      "success_rate": 0.9779697624190065,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "f0": {
+      "final_trust": 0.9799926107413328,
+      "anomaly": 0.0,
+      "success_rate": 0.9800500997495013,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "f1": {
+      "final_trust": 0.9739438068071891,
+      "anomaly": 0.0,
+      "success_rate": 0.9669421487603306,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "f2": {
+      "final_trust": 0.9774273844369479,
+      "anomaly": 0.0,
+      "success_rate": 0.9717741935483871,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "f3": {
+      "final_trust": 0.9764038635642074,
+      "anomaly": 0.0,
+      "success_rate": 0.9721115537848606,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "f4": {
+      "final_trust": 0.344868739151544,
+      "anomaly": 0.6136836957115953,
+      "success_rate": 0.3333333333333333,
+      "quarantine": 1.0,
+      "quarantine_permanent": 1.0,
+      "malicious": 1.0
+    },
+    "c0": {
+      "final_trust": 0.9787627865331046,
+      "anomaly": 0.0,
+      "success_rate": 0.9776951672862454,
+      "quarantine": 0.0,
+      "quarantine_permanent": 0.0,
+      "malicious": 0.0
+    },
+    "c1": {
+      "final_trust": 0.3826724447236502,
+      "anomaly": 0.6031256235878407,
+      "success_rate": 0.4,
+      "quarantine": 1.0,
+      "quarantine_permanent": 1.0,
+      "malicious": 1.0
+    }
+  },
+  "policy_history": {
+    "epsilon": [
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02,
+      0.02
+    ],
+    "reward": [
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9,
+      0.9
+    ],
+    "action": [
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment",
+      "full_assignment"
+    ],
+    "node": [
+      "f0",
+      "f0",
+      "f0",
+      "f0",
+      "f0",
+      "f0",
+      "f0",
+      "f0",
+      "f0",
+      "f0"
+    ]
+  },
+  "attack_events": [
+    {
+      "task_id": 22,
+      "node": "c1",
+      "event": "quarantine_temp",
+      "anomaly": 0.6031256235878407,
+      "final_trust": 0.3826724447236502
+    },
+    {
+      "task_id": 22,
+      "node": "c1",
+      "event": "quarantine_permanent",
+      "anomaly": 0.6031256235878407,
+      "final_trust": 0.3826724447236502
+    },
+    {
+      "task_id": 70,
+      "node": "f4",
+      "event": "quarantine_temp",
+      "anomaly": 0.6136836957115953,
+      "final_trust": 0.344868739151544
+    },
+    {
+      "task_id": 70,
+      "node": "f4",
+      "event": "quarantine_permanent",
+      "anomaly": 0.6136836957115953,
+      "final_trust": 0.344868739151544
+    }
+  ],
+  "detection_metrics": {
+    "confusion_matrix": {
+      "tp": 2,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0
+    },
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "accuracy": 1.0,
+    "specificity": 1.0,
+    "mcc": 1.0,
+    "mean_time_to_first_quarantine": 46.0,
+    "percent_capacity_quarantined": 0.40350877192982454,
+    "temp_quarantine_events": 2,
+    "permanent_quarantine_events": 2,
+    "quarantine_releases": 0,
+    "avg_temp_quarantine_dwell": -1,
+    "reroutes_total": 2,
+    "reroutes_per_task": 2.857142857142857e-05,
+    "reroutes_by_node": {
+      "c1": 1,
+      "f4": 1
+    }
+  }
+}
