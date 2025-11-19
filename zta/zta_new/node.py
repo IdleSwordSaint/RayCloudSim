@@ -36,6 +36,7 @@ class ZTANode:
     running_load: float = 0.0
     anomaly_index: float = 0.0
     trust_history: Deque[float] = field(default_factory=lambda: deque(maxlen=WINDOW))
+    final_trust_history: Deque[float] = field(default_factory=lambda: deque(maxlen=WINDOW))
     action_history: Deque[str] = field(default_factory=lambda: deque(maxlen=WINDOW))
     latency_history: Deque[float] = field(default_factory=lambda: deque(maxlen=WINDOW))
     quarantine: bool = False
@@ -50,9 +51,14 @@ class ZTANode:
         # Normalise initial trust boundaries and warm-up histories to avoid cold 0s.
         base_trust = max(0.05, min(0.95, self.initial_trust))
         for _ in range(5):
-            self.trust_history.append(base_trust)
+            # Ensure latency buffer is non-empty before computing behavior_trust
             self.latency_history.append(1.0)
             self.action_history.append("bootstrap")
+            self.trust_history.append(base_trust)
+            # Anomaly stays 0 for short history; update to keep state consistent
+            self.update_anomaly(base_trust)
+            # Snapshot fused trust for plotting reproducibility
+            self.final_trust_history.append(self.compute_final_trust())
 
     # ---- Zero Trust metrics -------------------------------------------------
 
@@ -66,7 +72,9 @@ class ZTANode:
     @property
     def behavior_trust(self) -> float:
         util_penalty = min(1.0, max(0.0, self.running_load))
-        latency_penalty = min(1.0, sum(self.latency_history) / len(self.latency_history) / 75.0)
+        # Guard against empty latency history during early init
+        denom = max(1, len(self.latency_history))
+        latency_penalty = min(1.0, (sum(self.latency_history) / denom) / 75.0)
         return max(0.0, 1.0 - 0.5 * util_penalty - 0.5 * latency_penalty)
 
     @property
@@ -221,6 +229,9 @@ class ZTANode:
             self.failure_count += 1
             penalty = 1.0 + overload_penalty
             trust_decrement = min(0.4, 0.1 + abs(trust_delta))
+            # Make benign nodes more resilient to transient failures; malicious degrade faster
+            if not self.is_malicious:
+                trust_decrement *= 0.6
             if self.is_malicious:
                 penalty *= 1.5
                 trust_decrement *= 1.5
@@ -233,9 +244,12 @@ class ZTANode:
         self.trust_history.append(updated_trust)
         self.update_anomaly(updated_trust)
 
-        if not self.is_malicious and self.trust_history[-1] < 0.3:
-            self.trust_history[-1] = 0.3
-            updated_trust = 0.3
+        # Track fused final-trust over time for visualization
+        self.final_trust_history.append(self.compute_final_trust())
+
+        if not self.is_malicious and self.trust_history[-1] < 0.5:
+            self.trust_history[-1] = 0.5
+            updated_trust = 0.5
 
         # Additional Zero-Trust enforcement: high anomaly triggers quarantine suggestion.
         if self.anomaly_index > 0.55 and not self.quarantine:

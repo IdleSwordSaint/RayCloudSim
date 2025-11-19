@@ -7,6 +7,7 @@ from __future__ import annotations
 import math
 import random
 from typing import Dict, List, Tuple
+import os
 
 import numpy as np
 import networkx as nx
@@ -47,6 +48,22 @@ class GNNRLPolicy:
         alpha: float = 0.05,
         gamma: float = 0.92,
     ) -> None:
+        # Optional preset override via environment variable
+        preset_name = os.environ.get("ZTA_POLICY_PRESET")
+        if preset_name:
+            try:
+                from .presets import POLICY_PRESETS
+                preset = POLICY_PRESETS.get(preset_name)
+                if preset:
+                    epsilon = float(preset.get("epsilon", epsilon))
+                    epsilon_min = float(preset.get("epsilon_min", epsilon_min))
+                    epsilon_decay = float(preset.get("epsilon_decay", epsilon_decay))
+                    alpha = float(preset.get("alpha", alpha))
+                    gamma = float(preset.get("gamma", gamma))
+            except Exception:
+                # Fall back silently if presets are not available
+                pass
+
         self.rng = rng
         self.epsilon = epsilon
         self.epsilon_min = epsilon_min

@@ -11,8 +11,10 @@ from typing import Iterable
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.lines import Line2D
 
 from .environment import SimulationResult
+from .dataset_catalog import DATASET_CATALOG
 
 
 def _ensure_dir(path: os.PathLike) -> Path:
@@ -24,14 +26,79 @@ def _ensure_dir(path: os.PathLike) -> Path:
 def plot_trust_trajectories(result: SimulationResult, output_dir: os.PathLike) -> Path:
     output_dir = _ensure_dir(output_dir)
     plt.figure(constrained_layout=True, figsize=(12, 7))
+
+    # Colors: normal = blue, malicious = red
+    normal_color = "#4C72B0"
+    malicious_color = "#C44E52"
+
+    # Determine malicious nodes using multiple fallbacks so plots stay correct
+    # across pipelines and historical summaries.
+    malicious_flags = {}
+    # 1) Prefer explicit flag from snapshots
+    for name, snap in result.node_snapshots.items():
+        if "malicious" in snap:
+            malicious_flags[name] = bool(snap.get("malicious", 0.0) >= 0.5)
+    # 2) If missing, infer from dataset catalog (declared malicious profiles)
+    if not malicious_flags or not any(malicious_flags.values()):
+        try:
+            d = next((d for d in DATASET_CATALOG if d.get("name") == result.dataset_name), None)
+            if d:
+                mp = d.get("malicious_profiles", {})
+                for name in result.node_histories.keys():
+                    if name in mp:
+                        malicious_flags[name] = True
+        except Exception:
+            pass
+    # 3) As a last resort, treat nodes that were permanently quarantined as malicious
+    if result.attack_events:
+        perm = {e["node"] for e in result.attack_events if str(e.get("event", "")).startswith("quarantine_permanent")}
+        for name in perm:
+            malicious_flags[name] = True
+
+    # Plot each trajectory with appropriate color
+    final_trust_by_node = {name: snap.get("final_trust") for name, snap in result.node_snapshots.items()}
+
     for node, history in result.node_histories.items():
-        plt.plot(history["trust"], label=node)
+        ys = history.get("final_trust") or history.get("trust", [])
+        if not ys:
+            continue
+        is_malicious = malicious_flags.get(node, False)
+        color = malicious_color if is_malicious else normal_color
+        lw = 1.8 if is_malicious else 1.1
+        plt.plot(ys, color=color, linewidth=lw)
+
+        # Overlay the summary final_trust as a dot to align with summary.json
+        ft = final_trust_by_node.get(node)
+        if isinstance(ft, (int, float)):
+            x = len(ys) - 1 if ys else 0
+            plt.scatter([x], [ft], color=color, s=22, zorder=5)
+
+        # Label malicious nodes at the last point using the summary final_trust if available
+        if is_malicious:
+            x = len(ys) - 1
+            y = float(ft) if isinstance(ft, (int, float)) else (ys[-1] if ys else 0.0)
+            plt.text(
+                x + 1,
+                y,
+                node,
+                color=malicious_color,
+                fontsize=9,
+                va="center",
+            )
+
     plt.title(f"Trust Trajectories — {result.dataset_name}")
     plt.xlabel("Observation")
     plt.ylabel("Trust Score")
     plt.ylim(0, 1.05)
-    # Place legend outside the axes to avoid cropping
-    plt.legend(loc="upper left", bbox_to_anchor=(1.02, 1), borderaxespad=0.0, fontsize=8)
+
+    # Category legend only (avoid a huge per-node legend)
+    handles = [
+        Line2D([0], [0], color=normal_color, lw=2, label="Normal nodes"),
+        Line2D([0], [0], color=malicious_color, lw=2, label="Malicious nodes"),
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='#444', markeredgecolor='#444', markersize=5, label='Final trust (summary)'),
+    ]
+    plt.legend(handles=handles, loc="upper left", bbox_to_anchor=(1.02, 1), borderaxespad=0.0, fontsize=9)
+
     path = output_dir / f"{result.dataset_name}_trust_trajectories.png"
     plt.tight_layout(rect=[0, 0, 0.8, 1])
     plt.savefig(path, dpi=220, bbox_inches="tight", pad_inches=0.2)

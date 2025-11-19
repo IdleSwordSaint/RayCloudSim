@@ -374,8 +374,9 @@ class ZTASimulation:
                     if nbrs:
                         nbr_trust = [self.nodes[n].compute_final_trust() for n in nbrs]
                         nbr_anom = [self.nodes[n].anomaly_index for n in nbrs]
-                        avg_nbr_trust = sum(nbr_trust) / len(nbr_trust)
-                        avg_nbr_anom = sum(nbr_anom) / len(nbr_anom)
+                        # Guard against unexpected empty lists
+                        avg_nbr_trust = sum(nbr_trust) / max(1, len(nbr_trust))
+                        avg_nbr_anom = sum(nbr_anom) / max(1, len(nbr_anom))
                     else:
                         avg_nbr_trust = 1.0
                         avg_nbr_anom = 0.0
@@ -518,6 +519,7 @@ class ZTASimulation:
             }
             node_histories[name] = {
                 "trust": list(node.trust_history),
+                "final_trust": list(node.final_trust_history),
                 "actions": list(node.action_history),
                 "latency": list(node.latency_history),
             }

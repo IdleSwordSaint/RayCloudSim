@@ -5,9 +5,13 @@ Zero-Trust assignment matrix enforcing the three ZTA principles.
 from __future__ import annotations
 
 from typing import Dict, Iterable
+import os
 
 # Each rule is evaluated in order; the first match wins. Conditions may inspect
 # both node-specific features and global system state.
+# Allow swapping rules via preset from environment
+_PRESET_NAME = os.environ.get("ZTA_RULES_PRESET")
+
 ZERO_TRUST_RULES = [
     # Identity‑agnostic quarantine: reduce false positives across diverse
     # datasets by requiring stronger evidence.
@@ -42,6 +46,17 @@ ZERO_TRUST_RULES = [
         "when": {"final_trust_min": 0.75, "anomaly_max": 0.35},
     },
 ]
+
+# If a preset is requested, override the rules with the preset snapshot
+if _PRESET_NAME:
+    try:
+        from .presets import RULES_PRESETS
+        _preset_rules = RULES_PRESETS.get(_PRESET_NAME)
+        if _preset_rules:
+            ZERO_TRUST_RULES = list(_preset_rules)  # shallow copy is fine for dict literals
+    except Exception:
+        # If presets module or key not found, keep defaults
+        pass
 
 DEFAULT_ACTION = "test_task_logging"
 
